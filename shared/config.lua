@@ -1,27 +1,30 @@
 Delivery = {}
 Delivery.Debug = false
-Delivery.Decay = true
-Delivery.Item = "delivery_food"
+Delivery.Decay = true -- if you are using metadata durability
+Delivery.Item = "delivery_food" -- this'll be the item inside the storages
 
-Delivery.MaxSlots = 15
+Delivery.MaxSlots = 15 -- max slots is also equal to max item per storage since stack is disabled
 Delivery.Reward = {min = 150, max = 200}
-Delivery.Fee = 100
-Delivery.Cooldown = 30
+Delivery.Fee = 100 -- deposit fee
+Delivery.Cooldown = 30 -- cooldown / in seconds
 
 Delivery.JobReward = {
-    Enabled = true,
-    EmployeeReward = 50,
-    Society = true,
-    SocietyReward = 50
+    Enabled = true, -- reward employee?
+    EmployeeReward = 50, -- how much then?
+    Society = true, -- also reward the society?
+    SocietyReward = 50 -- how much?
 }
 
-Delivery.Target = "ox"
-Delivery.DrawText = "ox"
-Delivery.Notify = "ox"
-Delivery.SkillCheck = "ox"
-Delivery.Menu = "ox"
-Delivery.Type = "target"
-Delivery.Progress = "bar"
+
+Delivery.Target = "ox" -- qb, ox 
+Delivery.DrawText = "ox" -- qb, ox
+Delivery.Notify = "ox" -- qb, ox
+Delivery.SkillCheck = "ox" -- wip
+Delivery.Menu = "ox" -- qb, ox
+Delivery.Type = "target" -- zone, target
+Delivery.Progress = "bar" -- circle, bar
+
+Delivery.QBDrawAlignment = 'top' --  'left', 'top', 'right' -- / For QB DrawText
 
 Delivery.Blip = {
     Scale = 0.9,
