@@ -18,3 +18,6 @@ A delivery sidejob I made for QBCore that uses ox_inventory
 # TO-DO
 - Other languages
 - qb-inventory support
+
+# Support
+Contact me at my discord @ybarra. or join my new discord server https://discord.gg/DbqC2SWzJk
