@@ -103,7 +103,7 @@ RegisterNetEvent('kloud-deliveries:server:convert', function(data)
         end
         if Delivery.JobReward.Society then
             print(data.job)
-            exports['qb-management']:AddMoney(data.job, Delivery.JobReward.SocietyReward)
+            AddJobMoney(data.job, Delivery.JobReward.SocietyReward)
         end
     end
 end)

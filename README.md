@@ -4,7 +4,7 @@ A delivery sidejob I made for QBCore that uses ox_inventory
 # Requirements
 - ox_inventory (https://github.com/overextended/ox_inventory)
 - ox_lib (https://github.com/overextended/ox_lib)
-- qb-core (https://github.com/qbcore-framework/qb-core)
+- qb-core (https://github.com/qbcore-framework/qb-core) or es_extended (https://github.com/esx-framework/esx_core)
 - rpemotes (https://github.com/TayMcKenzieNZ/rpemotes)
 
 # Features

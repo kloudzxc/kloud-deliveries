@@ -3,7 +3,7 @@ game 'gta5'
 
 lua54 'yes'
 author 'kloud'
-description 'QBCore Food Delivery Job'
+description '[QB/ESX] Food Delivery Job'
 
 shared_scripts {
     '@ox_lib/init.lua',
