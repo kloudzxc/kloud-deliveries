@@ -1,5 +1,5 @@
 # kloud-deliveries
-A delivery sidejob I made for QBCore that uses ox_inventory
+Advanced Fast-food Delivery Job for QB & ESX
 
 # Requirements
 - ox_inventory (https://github.com/overextended/ox_inventory)
