@@ -20,4 +20,5 @@ Advanced Fast-food Delivery Job for QB & ESX
 - qb-inventory support
 
 # Support
-Contact me at my discord @ybarra. or join my new discord server https://discord.gg/DbqC2SWzJk
+Contact me at my discord @_.kloud or join my new discord server 
+![Discord Shield](https://discordapp.com/api/guilds/1131198002976014377/widget.png?style=shield)
