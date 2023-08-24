@@ -7,12 +7,12 @@ onDuty = false
 
 RegisterNetEvent('esx:playerLoaded')
 AddEventHandler('esx:playerLoaded', function(xPlayer)
-	PlayerJob = xPlayer
+    PlayerJob = xPlayer
 end)
 
 RegisterNetEvent('esx:onPlayerLogout')
 AddEventHandler('esx:onPlayerLogout', function()
-	PlayerJob = {}
+    PlayerJob = {}
 end)
 
 RegisterNetEvent("esx:setJob", function(job)
@@ -21,43 +21,19 @@ end)
 
 RegisterNetEvent("kloud-deliveries:client:jobmenu", function(data)
     if Delivery.Menu == "ox" then
-        if PlayerJob.job.grade >= data.jobLevel then 
-            lib.registerContext({
-                id = "delivery_"..data.id,
-                title = "Delivery Menu",
-                options = {
-                    {
-                        title = "Open Storage",
-                        icon = "archive",
-                        onSelect = function()
-                            exports.ox_inventory:openInventory('stash', {id = "delivery_"..data.id})
-                        end
-                    },
-                    {
-                        title = "Add Stock",
-                        icon = "bars",
-                        onSelect = function()
-                            TriggerEvent("kloud-deliveries:client:addstock", data)
-                        end
-                    },
-                }
-            })
-        else
-            lib.registerContext({
-                id = "delivery_"..data.id,
-                title = "Delivery Menu",
-                options = {
-                    {
-                        title = "Add Stock",
-                        icon = "bars",
-                        onSelect = function()
-                            TriggerEvent("kloud-deliveries:client:addstock", data)
-                        end
-                    },
-                }
-            })
-        end
-
+        lib.registerContext({
+            id = "delivery_"..data.id,
+            title = "Delivery Menu",
+            options = {
+                {
+                    title = "Add Stock",
+                    icon = "bars",
+                    onSelect = function()
+                        TriggerEvent("kloud-deliveries:client:addstock", data)
+                    end
+                },
+            }
+        })
         lib.showContext("delivery_"..data.id)
     end
 end)

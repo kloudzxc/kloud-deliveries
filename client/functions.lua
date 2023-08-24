@@ -54,7 +54,6 @@ RegisterPoints = function ()
                     name = "kloud-deliveries:jobmenu",
                     icon = "fas fa-archive",
                     job = v.Job,
-                    jobLevel = v.StorageLevel,
                     item = v.RequiredItem,
                     id = k,
                     type = "convert",
@@ -97,7 +96,7 @@ RegisterPoints = function ()
                 inside = function ()
                     if IsControlJustPressed(0, 38) and not isBusy then
                         HideText()
-                        TriggerEvent("kloud-deliveries:client:jobmenu", {id = k, job = v.Job, jobLevel = v.StorageLevel, item = v.RequiredItem, type = "convert"})
+                        TriggerEvent("kloud-deliveries:client:jobmenu", {id = k, job = v.Job, item = v.RequiredItem, type = "convert"})
                     end
     
                     if isBusy or not inZone then

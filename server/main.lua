@@ -1,68 +1,56 @@
-AddEventHandler("onResourceStart", function(resource)
-    if GetCurrentResourceName() == resource then
-        for k,v in pairs(Delivery.Locations) do
-            RegisterStash("delivery_"..k, v.Job.."-"..k, Delivery.MaxSlots, 15000, false)
+MySQL.ready(function()
+    local response = MySQL.query.await([[
+        CREATE TABLE IF NOT EXISTS `kloud_deliveries` (
+            `job` varchar(50) NOT NULL,
+            `stock` int DEFAULT '0',
+            PRIMARY KEY (`job`)
+        )]])
+    if response then
+        for _, v in pairs(Delivery.Locations) do
+            MySQL.prepare('INSERT INTO kloud_deliveries (job) VALUES (?) ON DUPLICATE KEY UPDATE job=job', { v.Job }, function()
+                print("Inserted/found ".. v.Job .." job in the database.")
+            end)
         end
     end
 end)
 
 lib.callback.register('kloud-deliveries:callback:checkitem', function(source, data)
-    local src = source
-    local itemName = data.item
-    local itemStash
-    if data.type == "delivery" then
-        itemStash = GetInventoryItems("delivery_"..data.id)
-    else
-        itemStash = GetInventoryItems(src)
-    end
+    local loc = Delivery.Locations[data.id]
+    local currentStock = MySQL.scalar.await('SELECT `stock` FROM `kloud_deliveries` WHERE `job` = ? LIMIT 1', { loc.Job })
 
-    for _, data in pairs(itemStash) do
-        if data.name == itemName then  
-            if not data.metadata.durability and Delivery.Decay then return end
-
-            if data.metadata.durability > 0 then
-                return true
-            end
-        end
-    end
-
-    return false
-    
+    return currentStock >= 1
 end)
 
 lib.callback.register('kloud-deliveries:callback:checkdelivery', function(source)
     local src = source
-    local itemName = Delivery.Item
-    local data = GetSlotWithItem(src, itemName, {}, false)
+    local data = GetItemCount(src, Delivery.Item) >= 1
 
     if not data then SVNotify(src, "You don't have the food", "error") return false end
 
-    if not data.metadata and Delivery.Decay then SVNotify(src, "An error occured", "error") return false end
-
-    if data.metadata.durability > 0 then
-        return true
-    else
-        SVNotify(src, "You can't deliver expired food!", "error")
-        return false
-    end
+    return true
 end)
 
 RegisterNetEvent('kloud-deliveries:server:start', function(data)
     local src = source
-    local Player = GetPlayer(src)
     local itemName = Delivery.Item
-    local itemSlot = GetSlotWithItem("delivery_"..data.id, itemName, {}, false)
+    local loc = Delivery.Locations[data.id]
 
     if not RemoveMoney(src, "cash", Delivery.Fee, "Delivery Job Fee") then
         SVNotify(src, "You don't have enough money", "error")
         return
     end
 
-    -- for some reason I can't get the SwapSlots function to work so I used this instead
-    -- itemSlot gets all the necessary data then this check will remove the item
-    if not RemoveItem("delivery_"..data.id, itemName, 1, itemSlot.metdata, itemSlot.slot) then return end
-    -- then will add the item to player's inventory. this is basically swapping the items but not the short way
-    if not AddItem(src, itemName, 1, itemSlot.metdata) then return end
+    local newStock = nil
+    local currentStock = MySQL.scalar.await('SELECT `stock` FROM `kloud_deliveries` WHERE `job` = ? LIMIT 1', { loc.Job })
+
+    if currentStock == 0 then return false end
+
+    newStock = currentStock - 1
+
+    if newStock == nil then return false end
+
+    if not AddItem(src, itemName, 1) then return end
+    MySQL.Async.execute('UPDATE kloud_deliveries SET stock = ? WHERE `job` = ?', {newStock, loc.Job})
 
     TriggerClientEvent('kloud-deliveries:client:start', src)
 end)
@@ -83,18 +71,23 @@ end)
 
 RegisterNetEvent('kloud-deliveries:server:convert', function(data)
     local src = source
+    local loc = Delivery.Locations[data.id]
     local itemName = data.item or Delivery.RequiredItem
-    local Player = GetPlayer(src)
-    local itemSlot = GetSlotWithItem(src, itemName, {}, false)
+    local newStock = nil
+    local currentStock = MySQL.scalar.await('SELECT `stock` FROM `kloud_deliveries` WHERE `job` = ? LIMIT 1', { loc.Job })
 
-    if not CanCarryItem("delivery_"..data.id, itemName, 1, {}) then 
+    if currentStock >= loc.MaxStock then
         SVNotify(src, "Not enough space left in the order storage", "error")
         return
     end
 
-    if not RemoveItem(src, itemName, 1, itemSlot.metdata, itemSlot.slot) then return end
+    if not RemoveItem(src, itemName, 1) then return end
 
-    if not AddItem("delivery_"..data.id, "delivery_food", 1, itemSlot.metdata) then return end
+    newStock = currentStock + 1
+
+    if newStock == nil then return end
+
+    MySQL.Async.execute('UPDATE kloud_deliveries SET stock = ? WHERE `job` = ?', {newStock, loc.Job})
 
     if Delivery.JobReward.Enabled then
         if not AddMoney(src, "cash", Delivery.JobReward.EmployeeReward, "Add Stock Reward") then
@@ -102,7 +95,6 @@ RegisterNetEvent('kloud-deliveries:server:convert', function(data)
             return
         end
         if Delivery.JobReward.Society then
-            print(data.job)
             AddJobMoney(data.job, Delivery.JobReward.SocietyReward)
         end
     end

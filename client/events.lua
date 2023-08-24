@@ -20,10 +20,6 @@ RegisterNetEvent("kloud-deliveries:client:checkdeliveries", function(data)
     end
 end)
 
-RegisterNetEvent("kloud-deliveries:client:openstash", function(data)
-    exports.ox_inventory:openInventory('stash', {id = "delivery_"..data.id})
-end)
-
 RegisterNetEvent("kloud-deliveries:client:addstock", function(data)
     local hasItem = lib.callback.await("kloud-deliveries:callback:checkitem", false, data)
     if not hasItem then Notify("You don't have the required item", "error") return end
