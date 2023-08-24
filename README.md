@@ -1,5 +1,5 @@
 # kloud-deliveries
-A delivery sidejob I made for QBCore that uses ox_inventory
+Advanced Fast-food Delivery Job for QB & ESX
 
 # Requirements
 - ox_inventory (https://github.com/overextended/ox_inventory)
@@ -20,4 +20,5 @@ A delivery sidejob I made for QBCore that uses ox_inventory
 - qb-inventory support
 
 # Support
-Contact me at my discord @ybarra. or join my new discord server https://discord.gg/DbqC2SWzJk
+Contact me at my discord @_.kloud or join my new discord server 
+![Discord Shield](https://discordapp.com/api/guilds/1131198002976014377/widget.png?style=shield)
