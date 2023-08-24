@@ -51,7 +51,18 @@ Delivery.Locations = {
         Storage = vec4(-1197.96, -893.21, 13.89, 341.26),
         Size = vec3(0.75,0.75,2),
         Rotation = 160,
-    }
+    },
+    -- [2] = {
+    --     Type = "zone",
+    --     Job = "jobnamehere",
+    --     RequiredItem = "burger",
+    --     MaxStock = 15,
+    --     PedLocation = vec4(-1198.5, -891.76, 13.89, 341.39),
+    --     Location = vec4(-1197.55, -891.54, 13.89, 163.94),
+    --     Storage = vec4(-1197.96, -893.21, 13.89, 341.26),
+    --     Size = vec3(0.75,0.75,2),
+    --     Rotation = 160,
+    -- },
 }
 
 Delivery.DropOffs = {
