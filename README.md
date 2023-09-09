@@ -1,3 +1,6 @@
+# DEPRECATED!!!
+## USE https://github.com/kloudzxc/kloud-food-delivery INSTEAD
+
 # kloud-deliveries
 Advanced Fast-food Delivery Job for QB & ESX
 
